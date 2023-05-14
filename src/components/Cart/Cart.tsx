@@ -15,7 +15,7 @@ const Cart: React.FC<{ onHideCart: () => void }> = (props) => {
     <Modal onHideCart={props.onHideCart}>
           <ul className={styles["cart-items"]}>
       {[{ id: "c1", name: "Sushi", amount: 2, price: 12.99 }].map((item) => (
-        <li>{item.name}</li>
+        <li key={item.id}>{item.name}</li>
       ))}
     </ul>
       {/* 리액트노드에 포함될 수 있도록 랩핑함. */}
