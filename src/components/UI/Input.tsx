@@ -7,7 +7,7 @@ const Input = React.forwardRef((props: any, ref) => {
     <div className={styles.input}>
       <label htmlFor={props.input.id}>{props.label}</label>
       <input ref={ref} {...props.input} />
-      {/* 전개 연산자를 사용하여 porps.input을 넣어 iput 요소가 모두 추가될 수 있도록함. */}
+      {/* 전개 연산자를 사용하여 porps.input을 넣어 input 요소가 모두 추가될 수 있도록함. */}
     </div>
   );
 });

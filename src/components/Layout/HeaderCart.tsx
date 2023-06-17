@@ -13,7 +13,6 @@ const HeaderCart: React.FC<{ onClick: () => void }> = (props) => {
     return curNumber + item.amount;
   }, 0);
 
-  console.log(cartCtx);
   return (
     <button className={styles.button} onClick={props.onClick}>
       <img src={cartIcon} alt="cart icon" className={styles.icon} />

@@ -4,17 +4,19 @@ import Input from "../../UI/Input";
 
 const MealItemForm = (props: any) => {
   const [amountIsValid, setAmountIsValid] = useState(true);
-  const amountInputRef = useRef<HTMLInputElement>();
+  const amountInputRef = useRef<HTMLInputElement>(null);
 
   const submitHandler = (event: React.FormEvent) => {
     event.preventDefault();
+    console.log(typeof amountInputRef.current?.value);
     const enteredAmount = Number(amountInputRef.current?.value);
+    console.log(typeof enteredAmount);
 
     if (enteredAmount === 0 || enteredAmount < 1 || enteredAmount > 5) {
       setAmountIsValid(false);
       return;
     }
-    console.log(enteredAmount, "수량");
+    console.log(enteredAmount);
     props.onAddToCart(enteredAmount);
   };
 

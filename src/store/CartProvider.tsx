@@ -1,9 +1,16 @@
 import { useReducer } from "react";
 import CartContext from "./cart-context";
-import { Item } from "./cart-context";
+import { Item, State } from "./cart-context";
 //store에 별도의 provider로 관리하는 이유는 앱 수준 state가 여러 개 있는 더 큰 어플리케이션이(예를 들어 제품 state, 장바구니 state, 사용자 state 등)라면 app.tsx에서 관리하는것보다 훨씬 간결하게 유지할 수 있음
 // 해당 컴포넌트는 CartContext 데이터를 관리하고 그 컨텍스트를 접근하려는 모든 컴포넌트에 제공하는 것이 목표임
 // 일단 any로 지정해둠
+
+// export type CartContextType = {
+//   items: Item[];
+//   totalAmount: number;
+//   addItem: (item: Item) => void;
+//   removeItem: (id: string) => void;
+// };
 
 type Action =
   | {
@@ -25,17 +32,16 @@ const defaultCartState: any = {
 //
 const cartReducer = (state: DefaultCartStateType, action: Action) => {
   if (action.type === "ADD") {
-    console.log("item 추가");
     // push와 달리 기존 배열을 편집하는게 아니라 추가 후 새 배열을 반환함
     const updatedItems = state.items?.concat(action.item);
     const updatedTotalAmount =
       state.totalAmount + action.item.price * action.item.amount;
-    console.log(state.totalAmount, " 토탈 금액 확인");
-    console.log(action.item.price, action.item.amount, "음식 금액, 수량 확인");
     return {
       items: updatedItems,
       totalAmount: updatedTotalAmount,
     };
+  }
+  if ((action.type = "REMOVE")) {
   }
   return defaultCartState;
 };
@@ -56,7 +62,7 @@ const CartProvider = (props: any) => {
     dispatchCartAction({ type: "REMOVE", id: id });
   };
 
-  const cartContext = {
+  const cartContext: State = {
     items: cartState.items,
     totalAmount: cartState.totalAmount,
     addItem: addItemToCartHandler,

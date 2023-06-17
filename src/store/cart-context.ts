@@ -1,24 +1,24 @@
 import React from "react";
 
 export type Item = {
-  id?: string;
-  name?: string;
-  amount?: number;
+  id: string;
+  name: string;
+  amount: number;
   description?: string;
-  price?: number;
+  price: number;
 };
 
 export type State = {
-  items?: Item[] | null;
-  totalAmount?: number | null;
-  addItem: (item: object) => void;
+  items: Item[];
+  totalAmount: number;
+  addItem: (item: Item) => void;
   removeItem: (id: string) => void;
 };
 
 const CartContext = React.createContext<State | null>({
   items: [],
   totalAmount: 0,
-  addItem: (item: object) => {},
+  addItem: (item: Item) => {},
   removeItem: (id: string) => {},
 });
 
