@@ -15,12 +15,12 @@ import { Item, State } from "./cart-context";
 type Action =
   | {
       type: "ADD";
-      item: any;
+      item: Item;
     }
   | { type: "REMOVE"; id: string };
 
 type DefaultCartStateType = {
-  items: [];
+  items: Item[];
   totalAmount: number;
 };
 
@@ -33,16 +33,45 @@ const defaultCartState: any = {
 const cartReducer = (state: DefaultCartStateType, action: Action) => {
   if (action.type === "ADD") {
     // push와 달리 기존 배열을 편집하는게 아니라 추가 후 새 배열을 반환함
-    const updatedItems = state.items?.concat(action.item);
     const updatedTotalAmount =
       state.totalAmount + action.item.price * action.item.amount;
+    // 배열 항목의 인덱스를 찾는 findIndex 활용 찾는 항목이 맞으면 true, 아니라면 false
+    const existingCartItemIndex = state.items.findIndex((item: Item) => {
+      return item.id === action.item.id;
+    });
+    // 0,1,2,3 4개 항목의 index가 확인됨
+    // console.log(existingCartItemIndex, "인덱스 확인");
+
+    const existingCartItem = state.items[existingCartItemIndex];
+    // state.items[1] 2, 3 ... 확인됨
+    // console.log(existingCartItem, "state.items[찾는 인덱스]");
+
+    let updatedItems;
+
+    if (existingCartItem) {
+      // item 객체의 다른값은 동일하고 amount 수량만 업데이트해줌
+      const updatedItem = {
+        ...existingCartItem,
+        amount: existingCartItem.amount + action.item.amount,
+      };
+      console.log(updatedItem, "item이 이미 추가됐을 때");
+      // updatedItems는 기존 배열과 같다 메모리에 있는 기존 배열을 편집하지 않고 기존 객체를 복사하는 새 배열을 만듬.
+      updatedItems = [...state.items];
+      // updatedItems[인덱스] 찾은 객체를 updatedItem으로 덮음.
+      updatedItems[existingCartItemIndex] = updatedItem;
+    } else {
+      // 만약 새로 추가된다면 updatedItem = {...action.item}과 같고 updatedItems 배열에 action.item 객체를 추가함.
+      updatedItems = state.items?.concat(action.item);
+    }
+
+    // const updatedItems = state.items?.concat(action.item);
     return {
       items: updatedItems,
       totalAmount: updatedTotalAmount,
     };
   }
-  if ((action.type = "REMOVE")) {
-  }
+  // if ((action.type = "REMOVE")) {
+  // }
   return defaultCartState;
 };
 
@@ -54,10 +83,13 @@ const CartProvider = (props: any) => {
     defaultCartState
   );
 
+  // item 추가 action
   const addItemToCartHandler = (item: Item) => {
     // dispatch 보통은 객체로 사용함
     dispatchCartAction({ type: "ADD", item: item });
   };
+
+  // item 삭제 action
   const removeItemFromCartHandler = (id: string) => {
     dispatchCartAction({ type: "REMOVE", id: id });
   };

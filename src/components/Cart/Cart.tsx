@@ -7,7 +7,7 @@ import CartItem from "./CartItem";
 const Cart: React.FC<{ onHideCart: () => void }> = (props) => {
   // const cartItems = () => {
   //   <ul className={styles["cart-items"]}>
-  //     {[{ id: "c1", name: "Sushi", amount: 2, price: 12.99 }].map((item) => (
+  //     {[{  id: "c1", name: "Sushi", amount: 2, price: 12.99 }].map((item) => (
   //       <li>{item.name}</li>
   //     ))}
   //   </ul>;
@@ -36,7 +36,10 @@ const Cart: React.FC<{ onHideCart: () => void }> = (props) => {
             price={item.price}
             amount={item.amount}
             name={item.name}
+            // bind 메소드 호출 후 null, item를 바인드함.
+            // bind(this키워드 설정, 인수로 제공됨) 여기선 설정이 필요하지 않기 때문에 null
             onAdd={onAddHandler.bind(null, item)}
+            // bind 메소드 호출 후 null, item.id를 바인드함.
             onRemove={onRemoveHandler.bind(null, item.id)}
           >
             {item.name}
