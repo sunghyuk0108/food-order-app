@@ -70,8 +70,13 @@ const cartReducer = (state: DefaultCartStateType, action: Action) => {
       totalAmount: updatedTotalAmount,
     };
   }
-  // if ((action.type = "REMOVE")) {
-  // }
+  if (action.type === "REMOVE") {
+    const existingCartItemIndex = state.items.findIndex(
+      (item) => item.id === action.id
+    );
+    const existingCartItem = state.items[existingCartItemIndex];
+    console.log(existingCartItem);
+  }
   return defaultCartState;
 };
 

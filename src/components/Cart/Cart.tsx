@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import styles from "./Cart.module.scss";
 import Modal from "../UI/Modal";
-import CartContext from "../../store/cart-context";
+import CartContext, { Item } from "../../store/cart-context";
 import CartItem from "./CartItem";
 
 const Cart: React.FC<{ onHideCart: () => void }> = (props) => {
@@ -19,10 +19,13 @@ const Cart: React.FC<{ onHideCart: () => void }> = (props) => {
   const hasItems = cartCtx!.items!.length > 0;
   console.log(cartCtx);
 
-  const onAddHandler = (item: {}) => {
+  const onAddHandler = (item: Item) => {
+    cartCtx?.addItem({ ...item, amount: 1 });
+    console.log(cartCtx);
     console.log("add");
   };
   const onRemoveHandler = (id: string) => {
+    cartCtx?.removeItem(id);
     console.log("remove");
   };
 
