@@ -74,8 +74,34 @@ const cartReducer = (state: DefaultCartStateType, action: Action) => {
     const existingCartItemIndex = state.items.findIndex(
       (item) => item.id === action.id
     );
+    // findIndex를 활용해서 id값이 같은 item을 확인
     const existingCartItem = state.items[existingCartItemIndex];
-    console.log(existingCartItem);
+
+    // 기존 totalAmount에서 찾은 item의 가격만큼 빼줌
+    const updatedTotalAmount = state.totalAmount - existingCartItem.price;
+
+    // item의 상태를 업데이트 하기 위해 let을 활용
+    let updatedItems;
+
+    // 찾은 item의 갯수가 1과 같을 때 filter로 item.id와 action.id 가 같지 않은 항목만 남기고 items에 리턴함.
+    if (existingCartItem.amount === 1) {
+      updatedItems = state.items.filter((item) => item.id !== action.id);
+    }
+    // 1보다 큰 경우 찾은 아이템 객체의 key:value 값은 동일하게 설정하고 갯수만 기존 보다 -1 수량 만큼 빼줌
+    else {
+      const updatedItem = {
+        ...existingCartItem,
+        amount: existingCartItem.amount - 1,
+      };
+      // updatedItems에 기존 item 배열을 확인하고 해당 되는 아이템에 amount -1이 적용됨 위의 updatedItem으로 덮음 그리고 리턴
+      updatedItems = [...state.items];
+      updatedItems[existingCartItemIndex] = updatedItem;
+    }
+
+    return {
+      items: updatedItems,
+      totalAmount: updatedTotalAmount,
+    };
   }
   return defaultCartState;
 };
