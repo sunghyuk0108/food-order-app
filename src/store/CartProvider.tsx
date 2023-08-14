@@ -24,7 +24,7 @@ type DefaultCartStateType = {
   totalAmount: number;
 };
 
-const defaultCartState: any = {
+const defaultCartState: DefaultCartStateType = {
   items: [],
   totalAmount: 0,
 };
